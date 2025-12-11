@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- I see you too flybot, are you happy now? -->
+    
+    <!-- Solo viewer for external M3U8 streams -->
+    <video id="solo-viewer" autoplay muted style="display:none; position:absolute; top:0; left:0; width:720px; height:480px; object-fit:fill; z-index:5000;" ></video>   <title>Legacy Suite 4000</title>
+    <link rel="stylesheet" href="ws4000.css" id="theme-stylesheet">
+</head>
+<body class="text-only">
+        <script>
+            document.body.classList.remove('text-only');
+        </script>
+    <div class="content-container">
+        
+        <img src="./header/twclogo_highres.png" alt="The Weather Channel" class="twc-logo">
+        
+        <img src="./LDL.png" alt="LDL" class="ldl-image">
+        <div class="ldl-text"><span id="ldl-text-span"></span></div>
+
+        <!-- Ad Crawl (only visible during local on the 8s) -->
+        <div class="ad-crawl-text">
+            <span id="ad-crawl-span"></span>
+        </div>
+        
+        <!-- LDL Mode Clock (only visible in LDL mode) -->
+        <div class="ldl-clock" style="display: none;">
+            <span class="ldl-clock-date" id="ldl-clock-date"></span>
+            <span class="ldl-clock-time" id="ldl-clock-time"></span>
+        </div>
+        
+    <img src="" alt="Radar Basemap" class="radar-basemap" id="radar-basemap">
+        
+        <img src="" alt="Radar Data" class="radar-data">
+
+        <img src="./centerbox/layer_farthest_back_0.png" alt="Layer 0" class="centerbox-layer layer-0">
+        <img src="./centerbox/layer_back_1.png" alt="Layer 1" class="centerbox-layer layer-1">
+        <img src="./centerbox/extendedforecast.png" alt="EF Layer" class="centerbox-layer ef-layer">
+        <img src="./centerbox/layer_back_2.png" alt="Layer 2" class="centerbox-layer layer-2">
+        <img src="./centerbox/layer_back_3.png" alt="Layer 3" class="centerbox-layer layer-3">
+        <img src="./centerbox/layer_back_4.png" alt="Layer 4" class="centerbox-layer layer-4">
+        <img src="./centerbox/layer_back_5.png" alt="Layer 5" class="centerbox-layer layer-5">
+        <img src="./centerbox/layer_front_6.png" alt="Layer 6" class="centerbox-layer layer-6">
+        <img src="./header/header.png" alt="Header" class="header-bottom">
+
+
+    <div class="header-line header-line-top">
+            <span class="header-text-shadow line1">Current</span>
+            <span class="header-text line1">Current</span>
+    </div>
+    <div class="header-line header-line-bottom">
+            <span class="header-text-shadow line2">Conditions</span>
+            <span class="header-text line2">Conditions</span>
+        </div>
+        
+        <div class="current-location"></div>
+        
+        <div class="current-temp"></div>
+        
+        <div class="current-condition"></div>
+        
+        <img src="./currentconditions+extendedforecast_icons/Mostly-Cloudy.gif" alt="Mostly Cloudy" class="weather-icon">
+        
+        <div class="current-data-labels">
+            <div>Humidity:</div>
+            <div>Dewpoint:</div>
+            <div>Ceiling:</div>
+            <div>Visibility:</div>
+            <div>Pressure:</div>
+            <div>Wind Chill:</div>
+        </div>
+        
+        <div class="data-humidity"></div>
+        <div class="data-dewpoint"></div>
+        <div class="data-ceiling"></div>
+        <div class="data-visibility"></div>
+        <div class="data-pressure"></div>
+        <div class="data-windchill"></div>
+
+        
+        <div class="current-wind"></div>
+        <div class="current-wind-line2"> </div>
+        
+        <span class="clock clock-time" id="clock-time">10:27:45 PM</span>
+        <span class="clock clock-date" id="clock-date">MON AUG  5</span>
+        
+        
+    <img src="./header/radar_header.png" alt="Radar Header Blue" class="radar-header radar-header-blue">
+    <img src="./header/pink_header.png" alt="Radar Header Pink" class="radar-header radar-header-pink">
+    <img src="./modern/modern_radar.png" alt="Radar Header Modern" class="radar-header radar-header-modern">
+    <img src="./header/radar_nodata.png" alt="Radar Header No Data" class="radar-header radar-header-nodata">
+
+    <div id="ef-overlay">
+            <div class="ef-row">
+                <div class="ef-col">
+                    <div class="ef-dow">SUN</div>
+                    <div class="ef-icon-wrap">
+                        <img class="ef-icon" src="./currentconditions+extendedforecast_icons/null.png" alt="">
+                    </div>
+                    <div class="ef-cond">Sunny</div>
+                    <div class="ef-lhi">
+                        <div class="ef-lhi-row ef-lhi-row1">
+                            <span class="ef-lo-lbl">Lo</span>    <span class="ef-hi-lbl">Hi</span>
+                        </div>
+                        <div class="ef-lhi-row ef-lhi-row2">
+                            <span class="ef-lo-val">10</span>    <span class="ef-hi-val">45</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ef-col">
+                    <div class="ef-dow">MON</div>
+                    <div class="ef-icon-wrap">
+                        <img class="ef-icon" src="./currentconditions+extendedforecast_icons/null.png" alt="">
+                    </div>
+                    <div class="ef-cond">Partly Cloudy</div>
+                    <div class="ef-lhi">
+                        <div class="ef-lhi-row ef-lhi-row1">
+                            <span class="ef-lo-lbl">Lo</span>    <span class="ef-hi-lbl">Hi</span>
+                        </div>
+                        <div class="ef-lhi-row ef-lhi-row2">
+                            <span class="ef-lo-val">18</span>    <span class="ef-hi-val">47</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ef-col">
+                    <div class="ef-dow">TUE</div>
+                    <div class="ef-icon-wrap">
+                        <img class="ef-icon" src="./currentconditions+extendedforecast_icons/null.png" alt="">
+                    </div>
+                    <div class="ef-cond">Mostly Sunny</div>
+                    <div class="ef-lhi">
+                        <div class="ef-lhi-row ef-lhi-row1">
+                            <span class="ef-lo-lbl">Lo</span>    <span class="ef-hi-lbl">Hi</span>
+                        </div>
+                        <div class="ef-lhi-row ef-lhi-row2">
+                            <span class="ef-lo-val">19</span>    <span class="ef-hi-val">34</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="local-observations-panel">
+            <div class="local-obs-header">
+                <span class="local-obs-header-label local-obs-header-temp">\F</span>
+                <span class="local-obs-header-label local-obs-header-condition">WEATHER</span>
+                <span class="local-obs-header-label local-obs-header-wind">WIND</span>
+            </div>
+            <div class="local-obs-body"></div>
+            <div class="local-obs-empty"></div>
+        </div>
+    </div>
+    
+    <div id="header-sequence">
+        <div class="header-group">
+            <span class="header-text yellow-text">Current</span><br>
+            <span class="header-text yellow-text">Conditions</span>
+        </div>
+        <div class="header-group">
+            <span class="header-text yellow-text">Latest Observations</span><br>
+            <span class="header-text yellow-text"></span>
+        </div>
+        <div class="header-group">
+            <span class="header-text yellow-text">Local</span><br>
+            <span class="header-text yellow-text">Forecast</span>
+        </div>
+        <div class="header-group">
+            <span class="header-text white-text">(null)</span><br>
+            <span class="header-text yellow-text">Extended Forecast</span>
+        </div>
+    </div>
+
+    <audio id="weatherstar-music" loop autoplay></audio>
+    <!-- Narration audio element -->
+    <audio id="narration-audio"></audio>
+    <!-- DISABLED: Intro video functionality commented out due to budget constraints -->
+    <!-- <video id="intro-video" autoplay style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:720px; height:auto; z-index:10000;" ></video> -->
+
+    <script src="clock.js"></script>
+    <script src="data.js"></script>
+    <script src="buffermanager.js"></script>
+    <script src="render.js"></script>
+    <script>
+class WeatherStarMusic {
+    constructor() {
+        this.musicTracks = [];
+        this.audioElement = document.getElementById('weatherstar-music');
+        this.loadPlaylist();
+    }
+    
+    async loadPlaylist() {
+        try {
+            const response = await fetch('/api/playlist');
+            const playlist = await response.json();
+            
+            if (playlist.tracks && playlist.tracks.length > 0) {
+                this.musicTracks = playlist.tracks.map(track => track.path);
+                console.log(`Loaded playlist with ${playlist.trackCount} tracks`);
+            } else {
+                console.warn('No music tracks found in playlist');
+                this.musicTracks = []; // Empty playlist
+            }
+            
+            // Start playing if we have tracks
+            if (this.musicTracks.length > 0) {
+                this.startPlaying();
+            }
+        } catch (error) {
+            console.error('Failed to load playlist:', error);
+            // Fallback to empty playlist
+            this.musicTracks = [];
+        }
+    }
+    
+    pickRandomTrack() {
+        if (this.musicTracks.length === 0) return null;
+        const randomIndex = Math.floor(Math.random() * this.musicTracks.length);
+        return this.musicTracks[randomIndex];
+    }
+    
+    startPlaying() {
+        const selectedTrack = this.pickRandomTrack();
+        if (!selectedTrack) {
+            console.log('No music tracks available');
+            return;
+        }
+        
+        console.log(`WeatherSTAR 4000 playing: ${selectedTrack}`);
+        
+        this.audioElement.src = selectedTrack;
+        this.audioElement.volume = 0.6;
+        
+        this.audioElement.addEventListener('ended', () => {
+            const nextTrack = this.pickRandomTrack();
+            if (nextTrack) {
+                console.log(`Next track: ${nextTrack}`);
+                this.audioElement.src = nextTrack;
+                this.audioElement.play();
+            }
+        });
+        
+        this.audioElement.play().catch(error => {
+            console.log('Autoplay blocked - music will start on first user interaction');
+            
+            const startMusic = () => {
+                this.audioElement.play();
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('keydown', startMusic);
+            };
+            
+            document.addEventListener('click', startMusic);
+            document.addEventListener('keydown', startMusic);
+        });
+    }
+    
+    init() {
+        // Initialization is now handled by loadPlaylist()
+        // This method kept for compatibility
+    }
+}
+
+let config = {};
+let clock = null;
+let renderer = null;
+let musicPlayer = null;
+let weatherData = null;
+
+async function loadConfig() {
+    try {
+        const response = await fetch('config.json');
+        config = await response.json();
+        console.log('Config loaded:', config);
+        console.log('Intros flag:', config.intros);
+        
+        // Apply pillow box logo switching
+        if (config.pillow_box) {
+            const twcLogo = document.querySelector('.twc-logo');
+            if (twcLogo) {
+                twcLogo.src = './header/wr_logo.png';
+                console.log('Using Weather Ranch logo (pillow box mode)');
+            }
+            const radarBlue = document.querySelector('.radar-header-blue');
+            if (radarBlue) {
+                radarBlue.src = './header/wr_radar.png';
+            }
+            const radarPink = document.querySelector('.radar-header-pink');
+            if (radarPink) {
+                radarPink.src = './header/wr_radar_pink.png';
+            }
+        }
+        
+        // Parse URL parameters to override config settings
+        const urlParams = parseURLParameters();
+        let urlLocationOverride = null;
+        let urlLocationQuery = null;
+        if (urlParams) {
+            console.log('URL parameters detected:', urlParams);
+            
+            // Override config with URL parameters
+            if (urlParams.locationcode) {
+                urlLocationOverride = urlParams.locationcode;
+                console.log('Location override requested via URL:', urlLocationOverride);
+            }
+            if (urlParams.locationquery) {
+                urlLocationQuery = urlParams.locationquery;
+                console.log('Location text query detected via URL:', urlLocationQuery);
+            }
+            if (urlParams.modern !== undefined) {
+                config.modern = urlParams.modern;
+                console.log('Modern mode set from URL:', config.modern);
+            }
+            if (urlParams.narrations !== undefined) {
+                config.narrations = urlParams.narrations;
+                console.log('Narrations set from URL:', config.narrations);
+            }
+            if (urlParams.music !== undefined) {
+                config.serverside_audio = !urlParams.music; // Invert logic: music=true means serverside_audio=false
+                console.log('Music set from URL (serverside_audio):', config.serverside_audio);
+            }
+            if (urlParams.animate_radar !== undefined) {
+                config.animate_radar = urlParams.animate_radar;
+                console.log('Animate radar set from URL:', config.animate_radar);
+            }
+            if (urlParams.slow_draw !== undefined) {
+                config.slow_draw = urlParams.slow_draw;
+                console.log('Slow draw set from URL:', config.slow_draw);
+            }
+            if (urlParams.redmode !== undefined) {
+                const redParam = urlParams.redmode;
+                let forceRed = redParam;
+                if (typeof redParam === 'string') {
+                    const lower = redParam.toLowerCase();
+                    if (['on', 'enable', 'enabled'].includes(lower)) forceRed = true;
+                    if (['off', 'disable', 'disabled'].includes(lower)) forceRed = false;
+                }
+                config.force_red_mode = forceRed;
+                console.log('Red mode override from URL:', config.force_red_mode);
+            }
+        }
+
+        const themeLink = document.getElementById('theme-stylesheet');
+        if (themeLink) {
+            const modernValue = config.modern;
+            let modernEnabled = false;
+            if (typeof modernValue === 'string') {
+                const lower = modernValue.toLowerCase();
+                modernEnabled = ['true', 'on', 'enable', 'enabled', 'y', 'yes', '1'].includes(lower);
+            } else {
+                modernEnabled = Boolean(modernValue);
+            }
+            themeLink.href = modernEnabled ? 'ws4000_modern.css' : 'ws4000.css';
+            console.log('Theme stylesheet set to:', themeLink.href);
+
+            const tempHeaderEl = document.querySelector('.local-obs-header-temp');
+            if (tempHeaderEl) {
+                tempHeaderEl.textContent = modernEnabled ? '\u00B0F' : '\\F';
+            }
+        }
+
+        clock = new Clock();
+        renderer = new Renderer(config);
+        window.renderer = renderer;
+        weatherData = new WeatherData();
+        window.weatherData = weatherData;
+        weatherData.configCache = config;
+
+        const resolvedLocation = await resolveInitialLocation({
+            code: urlLocationOverride,
+            query: urlLocationQuery
+        }, weatherData, config);
+        if (resolvedLocation) {
+            config.locationcode = resolvedLocation;
+            window.__LOCATION_OVERRIDE = resolvedLocation;
+            weatherData.stationCode = resolvedLocation;
+            if (typeof weatherData.refreshStationMetadata === 'function') {
+                weatherData.refreshStationMetadata();
+            }
+            console.log('Active location code:', resolvedLocation);
+        }
+        
+        if (config.serverside_audio === true) {
+            console.log('Serverside audio enabled - disabling local music');
+            musicPlayer = null;
+            window.musicPlayer = null;
+        } else {
+            musicPlayer = new WeatherStarMusic();
+            window.musicPlayer = musicPlayer; // Make globally accessible
+        }
+        
+        const basemapImg = document.getElementById('radar-basemap');
+        const basemapPath = config.basemap_path || '';
+        if (basemapImg && basemapPath) basemapImg.src = basemapPath;
+
+        clock.init();
+        await weatherData.init();
+        renderer.init();
+        
+        if (musicPlayer) {
+            musicPlayer.init();
+        }
+        
+        if (config.debug_mode === 'y') {
+            const debugOverlay = document.getElementById('debug-overlay');
+            if (debugOverlay) {
+                debugOverlay.style.display = 'block';
+                debugOverlay.textContent = 'CONFIG.JSON:\n' + JSON.stringify(config, null, 2);
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load config:', error.message);
+    }
+}
+
+function parseURLParameters() {
+    const params = {};
+    let locationSet = false;
+    let pendingLocationQuery = '';
+
+    const href = window.location.href || '';
+    const questionIndex = href.indexOf('?');
+
+    if (questionIndex !== -1) {
+        const rawQuery = href.slice(questionIndex + 1);
+        if (rawQuery) {
+            const segments = rawQuery.split(/[?&]/).filter(Boolean);
+
+            segments.forEach(seg => {
+                let decoded;
+                try {
+                    decoded = decodeURIComponent(seg.replace(/\+/g, ' '));
+                } catch (error) {
+                    console.warn('URL parse: failed to decode segment', seg, error.message);
+                    decoded = seg;
+                }
+                const equalsIndex = decoded.indexOf('=');
+
+                if (equalsIndex === -1) {
+                    const candidate = decoded.trim();
+                    if (!candidate) {
+                        return;
+                    }
+                    if (!locationSet && isLikelyICAO(candidate)) {
+                        params.locationcode = candidate.toUpperCase();
+                        locationSet = true;
+                        return;
+                    }
+                    if (!locationSet) {
+                        pendingLocationQuery = pendingLocationQuery ? `${pendingLocationQuery} ${candidate}` : candidate;
+                        params.locationquery = pendingLocationQuery;
+                        return;
+                    }
+                    params[candidate.toLowerCase()] = true;
+                    return;
+                }
+
+                const key = decoded.slice(0, equalsIndex).trim();
+                const rawValue = decoded.slice(equalsIndex + 1).trim();
+                if (!key) {
+                    return;
+                }
+
+                const normalizedKey = key.toLowerCase();
+
+                if (normalizedKey === 'locationcode') {
+                    if (rawValue) {
+                        params.locationcode = rawValue.toUpperCase();
+                        locationSet = true;
+                    }
+                    return;
+                }
+
+                if (!locationSet && !rawValue && isLikelyICAO(key)) {
+                    params.locationcode = key.toUpperCase();
+                    locationSet = true;
+                    return;
+                }
+
+                if (['location', 'loc', 'city', 'place', 'query'].includes(normalizedKey) && rawValue) {
+                    params.locationquery = rawValue;
+                    return;
+                }
+
+                const parsed = parseValue(rawValue);
+                if (parsed !== undefined) {
+                    params[normalizedKey] = parsed;
+                }
+            });
+        }
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    for (const [rawKey, rawValue] of searchParams.entries()) {
+        const key = rawKey.toLowerCase();
+
+        if (key === 'locationcode' && rawValue) {
+            params.locationcode = rawValue.toUpperCase();
+            locationSet = true;
+            continue;
+        }
+
+        if (!locationSet && !rawValue && isLikelyICAO(rawKey)) {
+            params.locationcode = rawKey.toUpperCase();
+            locationSet = true;
+            continue;
+        }
+
+        if (['location', 'loc', 'city', 'place', 'query'].includes(key) && rawValue) {
+            params.locationquery = rawValue;
+            continue;
+        }
+
+        const parsed = parseValue(rawValue);
+        if (parsed !== undefined) {
+            params[key] = parsed;
+        }
+    }
+
+    if (!locationSet) {
+        const fallbackKeys = ['icao', 'location', 'loc', 'station'];
+        for (const key of fallbackKeys) {
+            const value = params[key];
+            if (typeof value === 'string' && isLikelyICAO(value)) {
+                params.locationcode = value.toUpperCase();
+                locationSet = true;
+                break;
+            }
+            if (!params.locationquery && typeof value === 'string' && value.trim()) {
+                params.locationquery = value;
+            }
+        }
+    }
+
+    return Object.keys(params).length > 0 ? params : null;
+}
+
+function parseValue(value) {
+    if (!value) return undefined;
+    
+    const lowerValue = value.toLowerCase();
+    
+    // Handle boolean values
+    if (lowerValue === 'true' || lowerValue === 'y' || lowerValue === 'yes' || lowerValue === '1') {
+        return true;
+    }
+    if (lowerValue === 'false' || lowerValue === 'n' || lowerValue === 'no' || lowerValue === '0') {
+        return false;
+    }
+    
+    // Handle string values for narrations/slow_draw
+    if (lowerValue === 'y' || lowerValue === 'n') {
+        return lowerValue;
+    }
+    
+    // Return as string
+    return value;
+}
+
+async function resolveLocationQuery(query, weatherDataInstance, configInstance) {
+    if (!query) return null;
+
+    const mapboxToken = configInstance?.api?.mapbox;
+    if (!mapboxToken) {
+        console.warn('Mapbox API token missing; cannot resolve location queries');
+        return null;
+    }
+
+    const encodedQuery = encodeURIComponent(query);
+    const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedQuery}.json?access_token=${mapboxToken}&limit=1&types=place,locality,region,district,address,postcode,poi`;
+
+    let feature = null;
+    try {
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error(`Geocoding request failed: ${response.status}`);
+        }
+        const data = await response.json();
+        feature = Array.isArray(data?.features) ? data.features[0] : null;
+    } catch (error) {
+        console.warn('Mapbox geocoding failed:', error.message);
+        return null;
+    }
+
+    if (!feature) {
+        return null;
+    }
+
+    const center = Array.isArray(feature.center) ? feature.center : null;
+    const lon = Number.isFinite(center?.[0]) ? center[0] : null;
+    const lat = Number.isFinite(center?.[1]) ? center[1] : null;
+
+    if (lat === null || lon === null) {
+        console.warn('Geocoding result missing coordinates');
+        return null;
+    }
+
+    if (weatherDataInstance && typeof weatherDataInstance.findNearestStation === 'function') {
+        try {
+            const station = await weatherDataInstance.findNearestStation(lat, lon);
+            if (station) {
+                return station.toUpperCase();
+            }
+        } catch (error) {
+            console.warn('Nearest station lookup failed:', error.message);
+        }
+    }
+
+    return null;
+}
+
+async function resolveInitialLocation(urlOverride, weatherDataInstance, configInstance) {
+    let locationCode = null;
+    let locationQuery = null;
+
+    if (typeof urlOverride === 'string') {
+        locationCode = urlOverride;
+    } else if (urlOverride && typeof urlOverride === 'object') {
+        locationCode = urlOverride.code;
+        locationQuery = urlOverride.query;
+    }
+
+    const normalizedCode = typeof locationCode === 'string' ? locationCode.trim().toUpperCase() : null;
+
+    if (normalizedCode && isLikelyICAO(normalizedCode)) {
+        console.log('Location override applied from URL:', normalizedCode);
+        return normalizedCode;
+    }
+
+    if (normalizedCode && !isLikelyICAO(normalizedCode)) {
+        console.warn('Ignoring invalid ICAO override from URL:', locationCode);
+    }
+
+    const normalizedQuery = typeof locationQuery === 'string' ? locationQuery.trim() : '';
+    if (normalizedQuery) {
+        try {
+            const queryResolved = await resolveLocationQuery(normalizedQuery, weatherDataInstance, configInstance);
+            if (queryResolved && isLikelyICAO(queryResolved)) {
+                console.log(`Resolved location query "${normalizedQuery}" -> ${queryResolved}`);
+                return queryResolved.toUpperCase();
+            }
+            console.warn(`Unable to resolve location query: "${normalizedQuery}"`);
+        } catch (error) {
+            console.warn(`Location query resolution failed for "${normalizedQuery}":`, error.message);
+        }
+    }
+
+    if (weatherDataInstance && typeof weatherDataInstance.getLocationFromIP === 'function') {
+        try {
+            const ipCode = await weatherDataInstance.getLocationFromIP();
+            if (ipCode && isLikelyICAO(ipCode)) {
+                const resolved = ipCode.toUpperCase();
+                console.log('Location resolved via IP lookup:', resolved);
+                return resolved;
+            }
+        } catch (error) {
+            console.warn('IP-based location lookup failed:', error.message);
+        }
+    }
+
+    const fallback = 'KORD';
+    console.log('Location fallback applied:', fallback, '(Chicago)');
+    return fallback;
+}
+
+function isLikelyICAO(code) {
+    if (typeof code !== 'string') return false;
+    const trimmed = code.trim();
+    if (trimmed.length < 3 || trimmed.length > 4) return false;
+    return /^[A-Za-z0-9]{3,4}$/.test(trimmed);
+}
+
+window.addEventListener('load', loadConfig);
+
+if (typeof EventSource !== 'undefined') {
+    const eventSource = new EventSource('/live-reload');
+    
+    eventSource.onmessage = function(event) {
+        if (event.data === 'reload') {
+            console.log('File changed - reloading page');
+            window.location.reload();
+        }
+    };
+    
+    eventSource.onerror = function(event) {
+        console.log('Live reload connection error, retrying');
+    };
+}
+    </script>
+</body>
+</html>

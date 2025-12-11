@@ -1,0 +1,43 @@
+{
+  "name": "legacy_suite_4000_graphical",
+  "version": "1.0.0",
+  "description": "Legacy Suite is a collection of STAR sims from days past. This build is the: Weather STAR 4000 (Graphical Build)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server.js",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "dist": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "weatherranch.legacysuite.4000_graphical",
+    "productName": "WeatherSTAR 4000",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "!dist/**/*",
+      "!docs/**/*",
+      "!.git/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "express": "^4.18.2"
+  }
+}
